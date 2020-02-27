@@ -1,1 +1,61 @@
 \chapter{Quick Start}
+\section{Function}
+    \subsection{Lambda Function}
+        \hspace*{2em} Lambda 函数即匿名函数, 其用来快速定义单行函数. 基本用法为:
+            \begin{lstlisting}[gobble = 16]
+                lambda [arg1 [, agr2,.....argn]] : expression
+            \end{lstlisting}
+
+            \begin{Example}[Lambda 函数]
+                \begin{lstlisting}[gobble = 20]
+                    >>> g = lambda x, y, z : (x + y) ** z
+                    >>> print g(1,2,2)
+                    9
+                \end{lstlisting}
+            \end{Example}
+
+\section{Other}
+    \subsection{\Code{with} 语句}
+        \hspace*{2em} \Code{with} 语句相当与提供了一个上下文, 亦即在 \Code{with} 下属的代码块的开始与结束时自动调用 \Code{with} 语句指定的上下文. 基本语法是:
+            \begin{lstlisting}[gobble = 16]
+                with <context_expression> [as <target>]:
+                    with-body
+            \end{lstlisting}
+
+    \subsection{脚本中调用其它 Python 脚本}
+        \hspace*{2em} 有好几种方法可以完成该目标:
+            \begin{enumerate}
+                \item \textbf{Treat it like a module:} \Code{import} file. This is good because it's secure, fast, and maintainable. Code gets reused as it's supposed to be done. Most Python libraries run using multiple methods stretched over lots of files. Highly recommended. Note that if your file is called `file.py`, your import should not include the `.py` extension at the end.
+                \item \textbf{The infamous (and unsafe) exec command:} Insecure, hacky, usually the wrong answer. Avoid where possible.
+                    \begin{enumerate}
+                        \item \Code{execfile('file.py')} in Python 2
+                        \item \Code{exec('file.py')} in Python 3
+                    \end{enumerate}
+                \item \textbf{Spawn a shell process:} \Code{os.system('python file.py')}. Use when desperate.
+            \end{enumerate}
+
+    \subsection{与 Shell 交互}
+        \paragraph{运行 Shell 指令 \\}
+            \hspace*{2em} 主要通过各种模块函数来实现运行 Shell 指令
+                \begin{enumerate}
+                    \item \Code{os.system(<cmd>)}: 这种方式只是执行shell命令, 返回一个返回码 (0表示执行成功,否则表示失败). 如:
+                    \item \Code{os.popen(<cmd>)}: 执行命令并返回该执行命令程序的输入流或输出流. 该命令只能操作单向流, 与shell命令单向交互, 不能双向交互.
+                    \item \Code{subprocess.call()}: 类似 \Code{os.system()}
+                \end{enumerate}
+
+        \paragraph{调用环境变量 \\}
+            \hspace*{2em} 可以通过 \Code{os} 模块的 \Code{os.environ()} 函数来获取环境变量的值
+
+            \begin{Example}[调用环境变量]
+                先在 Shell 中运行:
+                    \begin{lstlisting}[language = {bash}, gobble = 24]
+                        $ FOO="myFOO"
+                        $ export FOO
+                    \end{lstlisting}
+
+                再在 Python 脚本中进行打印:
+                    \begin{lstlisting}[language = {Python}, gobble = 24]
+                        import os
+                        print os.environ['FOO']
+                    \end{lstlisting}
+            \end{Example}

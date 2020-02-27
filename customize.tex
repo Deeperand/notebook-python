@@ -41,7 +41,7 @@
     \usepackage{nameref} % provide command: \nameref
     \usepackage{fontspec} % font select and set
     \usepackage{CJKfntef} % enhanced under modify, the parameter can cancel replacing '\emph' with '\CJKunderline'
-    \usepackage{ulem}[normalem]
+    \usepackage[normalem]{ulem} % 除可以用于下划线修饰以外, 还提供了指令 \bgroup 与 \markoverwith \Ulon, 可用于自定义文字上的风格.
 
     % package using in math mode
     \usepackage{amsmath}
@@ -61,6 +61,7 @@
 
 % self define
     \definecolor{CodeGrey}{RGB}{240, 240, 240} % the grey used in code block or single code
+    \definecolor{InLineCodeColor}{RGB}{94, 160, 40} % the grey used in code block or single code
 
 % command/environment building and renewing
     % text
@@ -72,7 +73,10 @@
             {\begin{flushright}$\square$\end{flushright}}
 
         % command
-            \newcommand{\Code}[1]{\colorbox{CodeGrey}{\rule{0pt}{1ex}\texttt{#1}}} % code, had the less height "ex", which means even the punctuation like comma had the height "ex".
+                \newcommand\hl{\bgroup\markoverwith{\textcolor{CodeGrey}{\rule[-.8ex]{2pt}{2.8ex}}}\ULon}
+                \newcommand\CodeBg{\bgroup\markoverwith{\textcolor{CodeGrey}{\ttfamily\rule[-.8ex]{2pt}{2.8ex}}}\ULon} % code, had the less height "ex", which means even the punctuation like comma had the height "ex".
+            \newcommand{\Code}[1]{\lstinline[basicstyle=\color{InLineCodeColor}\ttfamily]{#1}} % in-line code
+            \newcommand{\CodeB}[1]{\colorbox{CodeGrey}{\rule{0pt}{1ex}\texttt{#1}}} % code with box, had the less height "ex", which means even the punctuation like comma had the height "ex".
             \newcommand{\completesolving}{\begin{flushright}$\square$\end{flushright}} % the square
             \newcommand{\CompleteExample}{\begin{flushright}$\blacksquare$\end{flushright}} % the black square
             \newcommand\DoubleQuote[1]{``#1''} % double quote
